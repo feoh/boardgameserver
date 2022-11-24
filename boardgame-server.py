@@ -10,11 +10,10 @@ board_sizes = {
     'othello': 8
 }
 
-app = typer.run()
+app = typer.Typer(help="Boardgame server")
 
 class BoardGameServer:
 
-    @app.command()
     def __init__(self, hostname=HOST, port=PORT):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((hostname, port))
@@ -45,4 +44,8 @@ class BoardGameServer:
             'game': game,
         }
 
+def main():
+    bgs = BoardGameServer()
+
 if __name__ == '__main__':
+    main()
