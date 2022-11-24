@@ -8,13 +8,7 @@ In particular, I'm writing this with the Atari 8 bits using the [Fujinet](https:
 
 ## Implementation
 
-### Data structures
-
-Internally the server uses simple Python dictionaries for the board since they can contain both the grid of spaces that can be occupied or not as well as other properties like game type, title etc.
-
-This way if we ever want to consider long running games that are persistent across sessions, we can trivially dump the dictionaries to JSON blobs and store them on the filesystem.
-
-I suppose an object oriented approach might make sense here as well, but I don't really see what classes bring to the table beyond what a dictionary offers, though future refactoring shouldn't be too hard.
+Since we're modeling physical objects (board games) OO fits well here.
 
 ### Transport
 
