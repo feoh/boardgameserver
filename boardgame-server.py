@@ -1,20 +1,21 @@
 import socket
-import typer
 
 HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
 PORT = 8907  # Port to listen on (non-privileged ports are > 1023)
 
-board_sizes = {
-    'checkers': 8,
-    'go': 19,
-    'othello': 8
-}
-
-app = typer.Typer(help="Boardgame server")
-
 class BoardGameServer:
 
     def __init__(self, hostname=HOST, port=PORT):
+
+        self.host = HOST
+        self.port = PORT
+
+        self.board_sizes = {
+            'checkers': 8,
+            'go': 19,
+            'othello': 8
+        }
+
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((hostname, port))
             s.listen()
@@ -29,20 +30,24 @@ class BoardGameServer:
 
                     match data.split():
                         case ["play", game]:
-                            register_game(game)
+                            self.register_game(game)
                         case ["end"]:
-                            end_game()
+                            self.end_game()
                         case ["place",x,y]:
-                            place(x,y)
+                            self.place(x,y)
                         case ["remove",x,y]:
                             remove(x,y)
 
-    @app.command()
+
     def register_game(self, game: str):
         game_state = {
-            'board_size': board_sizes[game],
+            'board_size': self.board_sizes[game],
             'game': game,
         }
+
+    def end_game():
+        pass
+
 
 def main():
     bgs = BoardGameServer()
