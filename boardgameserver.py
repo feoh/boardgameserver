@@ -34,14 +34,18 @@ class BoardGameServer:
 
 
     def parse_command(self, data):
-        match data.split():
+        byte_command_chunks = data.split()
+        command_chunks = [ chunk.decode() for chunk in byte_command_chunks ]
+
+        match command_chunks:
             case ["play", game]:
                 self.register_game(game)
             case ["end"]:
                 self.end_game()
-            case ["place",x,y]:
+            case ["place", x, y]:
                 self.place_piece(x,y)
-            case ["remove",x,y]:
+            case ["remove", x, y]:
+                (x,y) = command_chunks
                 self.remove_piece(x,y)
 
 
